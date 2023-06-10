@@ -1,0 +1,74 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
+}
+
+android {
+    namespace 'com.feature.movie.ui'
+    compileSdk 33
+
+    defaultConfig {
+        minSdk 24
+        targetSdk 33
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.4.7'
+    }
+}
+
+dependencies {
+    //Depended Libraries
+    implementation project(":core:feature_api")
+    implementation project(":core:common")
+    implementation project(":feature:movie:domain")
+
+    //Core
+    implementation Deps.core
+    implementation Deps.lifecycle
+    implementation Deps.viewModelLifeCycle
+    implementation Deps.viewModelLifeCycleCompose
+
+    //Compose
+    implementation Compose.composeNavigation
+    implementation Compose.activityCompose
+    implementation platform(Compose.platform)
+    implementation Compose.ui
+    implementation Compose.uiGraphics
+    implementation Compose.uiToolingPreview
+    implementation Compose.material3
+
+    //Hilt
+    kapt Hilt.hiltCompiler
+    implementation Hilt.hiltAndroid
+    implementation Hilt.hiltComposeNavigation
+
+    //Coil
+    implementation CoilImageLibrary.coil
+
+    //Test
+    testImplementation TestImplementation.jUnit
+    androidTestImplementation AndroidTestImplementation.jUnit_ext
+    androidTestImplementation AndroidTestImplementation.espresso_core
+}
